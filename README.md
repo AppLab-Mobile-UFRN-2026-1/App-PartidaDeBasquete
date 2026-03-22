@@ -52,10 +52,12 @@ PartidaBasquete/
 
 ## 🛠️ Tecnologias Utilizadas
 * **Linguagem:** Kotlin
+* **SDK:** API 34 (Min: 24)
+* **Gradle:** Versão 9.3.1
 * **Views e Layouts:** XML (LinearLayout, RelativeLayout)
 * **Componentes Nativos:** `CountDownTimer`, `AlertDialog`, `Toast`
 * **Estilização:** Arquivos de `Drawable` customizados (shapes, strokes, solid colors).
-
+* **IDE:** Android Studio
 ---
 
 
