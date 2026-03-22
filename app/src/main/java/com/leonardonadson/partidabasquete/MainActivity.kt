@@ -8,6 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.os.CountDownTimer
+import android.app.AlertDialog
+
 
 class MainActivity : ComponentActivity() {
 
@@ -16,6 +19,12 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var pTimeA: TextView
     private lateinit var pTimeB: TextView
+    private lateinit var textCronometro: TextView
+
+
+    private var countDownTimer: CountDownTimer? = null
+    private var tempoRestanteInMillis: Long = 600000
+    private var timerRodando: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +39,8 @@ class MainActivity : ComponentActivity() {
 
         pTimeA = findViewById(R.id.placarTimeA)
         pTimeB = findViewById(R.id.placarTimeB)
+        textCronometro = findViewById(R.id.cronometro)
+
 
         val bTresPontosTimeA: Button = findViewById(R.id.tresPontosA)
         val bDoisPontosTimeA: Button = findViewById(R.id.doisPontosA)
@@ -47,6 +58,16 @@ class MainActivity : ComponentActivity() {
         bTLivreTimeB.setOnClickListener { adicionarPontos(1, "B") }
 
         bReiniciar.setOnClickListener { reiniciarPartida() }
+
+        textCronometro.setOnClickListener {
+            if (timerRodando) {
+                pausarTimer()
+            } else {
+                iniciarTimer()
+            }
+        }
+
+        atualizarTextoCronometro()
     }
 
     private fun adicionarPontos(pontos: Int, time: String) {
@@ -64,6 +85,34 @@ class MainActivity : ComponentActivity() {
         } else {
             pTimeB.text = pontuacaoTimeB.toString()
         }
+    }
+
+    private fun iniciarTimer() {
+        countDownTimer = object : CountDownTimer(tempoRestanteInMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                tempoRestanteInMillis = millisUntilFinished
+                atualizarTextoCronometro()
+            }
+
+            override fun onFinish() {
+            timerRodando = false
+            Toast.makeText(this@MainActivity, "Fim de Quarto!", Toast.LENGTH_LONG).show()
+            }
+        }.start()
+
+        timerRodando = true
+    }
+    private fun pausarTimer() {
+        countDownTimer?.cancel()
+        timerRodando = false
+    }
+
+    private fun atualizarTextoCronometro() {
+        val minutos = (tempoRestanteInMillis / 1000) / 60
+        val segundos = (tempoRestanteInMillis / 1000) % 60
+
+        val tempoFormatado = String.format("%02d:%02d", minutos, segundos)
+        textCronometro.text = tempoFormatado
     }
 
     private fun reiniciarPartida() {
