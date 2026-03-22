@@ -77,6 +77,12 @@ class MainActivity : ComponentActivity() {
             pontuacaoTimeB += pontos
         }
         atualizaPlacar(time)
+
+        if (pontuacaoTimeA >= 100) {
+            mostrarTelaVencedor("TIME A")
+        } else if (pontuacaoTimeB >= 100) {
+            mostrarTelaVencedor("TIME B")
+        }
     }
 
     private fun atualizaPlacar(time: String) {
@@ -120,6 +126,28 @@ class MainActivity : ComponentActivity() {
         pTimeA.text = pontuacaoTimeA.toString()
         pontuacaoTimeB = 0
         pTimeB.text = pontuacaoTimeB.toString()
-        Toast.makeText(this, "Placar reiniciado", Toast.LENGTH_SHORT).show()
+
+        pausarTimer()
+        tempoRestanteInMillis = 600000
+        atualizarTextoCronometro()
+
+        Toast.makeText(this, "Partida e Cronômetro reiniciados", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarTelaVencedor(nomeDoTime: String) {
+        pausarTimer()
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("🏆 Fim de Jogo!")
+        builder.setMessage("O $nomeDoTime atingiu 100 pontos e venceu a partida!")
+
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("Nova Partida") { dialog, _ ->
+            reiniciarPartida()
+            dialog.dismiss()
+        }
+
+        builder.show()
     }
 }
