@@ -111,7 +111,12 @@
                     android:text="00:00"
                     android:textColor="#FF0000"
                     android:textSize="40sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
             </LinearLayout>
         </LinearLayout>
 
