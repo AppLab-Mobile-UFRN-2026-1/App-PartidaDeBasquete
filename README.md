@@ -8,7 +8,11 @@ Um aplicativo Android nativo para gerenciar partidas de basquete. Projetado com 
 ## 📸 Demonstração
 
 
-https://github.com/user-attachments/assets/e2c13a1b-b3cf-4023-a71e-56e9ef1f89f0
+
+https://github.com/user-attachments/assets/fcf99a2c-187b-42a9-9083-389c8fca8813
+
+
+
 
 
 ---
