@@ -7,9 +7,29 @@
     android:background="#37474F"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/reiniciarPartida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reiniciar Partida"
+        android:backgroundTint="#F57C00"
+        android:background="@drawable/custom_button"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/reiniciarPartida"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
         <LinearLayout
@@ -137,7 +157,8 @@
                 <Button
                     android:id="@+id/tresPontosA"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="#1976D2"
                     android:background="@drawable/custom_button"
@@ -148,11 +169,11 @@
                 <Button
                     android:id="@+id/doisPontosA"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="#1976D2"
                     android:background="@drawable/custom_button"
-
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:text="+2 PONTOS" />
@@ -160,7 +181,8 @@
                 <Button
                     android:id="@+id/tiroLivreA"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
                     android:backgroundTint="#1976D2"
                     android:background="@drawable/custom_button"
                     android:textColor="#FFFFFF"
@@ -183,7 +205,8 @@
                 <Button
                     android:id="@+id/tresPontosB"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="#D32F2F"
                     android:background="@drawable/custom_button"
@@ -194,7 +217,8 @@
                 <Button
                     android:id="@+id/doisPontosB"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
                     android:layout_marginBottom="8dp"
                     android:backgroundTint="#D32F2F"
                     android:background="@drawable/custom_button"
@@ -205,7 +229,8 @@
                 <Button
                     android:id="@+id/tiroLivreB"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="56dp"
                     android:backgroundTint="#D32F2F"
                     android:background="@drawable/custom_button"
                     android:textColor="#FFFFFF"
@@ -214,15 +239,6 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:id="@+id/reiniciarPartida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reiniciar Partida"
-        android:backgroundTint="#F57C00"
-        android:background="@drawable/custom_button"
-        android:textColor="#FFFFFF"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="32dp"/>
+
+    </ScrollView>
 </RelativeLayout>
