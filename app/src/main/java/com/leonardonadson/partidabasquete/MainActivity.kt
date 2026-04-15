@@ -1,5 +1,6 @@
 package com.leonardonadson.partidabasquete
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -21,7 +22,6 @@ class MainActivity : ComponentActivity() {
     private lateinit var pTimeB: TextView
     private lateinit var textCronometro: TextView
 
-
     private var countDownTimer: CountDownTimer? = null
     private var tempoRestanteInMillis: Long = 600000
     private var timerRodando: Boolean = false
@@ -29,8 +29,35 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
 
+        // Restaura estado salvo (caso Activity seja recriada pelo sistema)
+        if (savedInstanceState != null) {
+            pontuacaoTimeA = savedInstanceState.getInt("pontuacaoA", 0)
+            pontuacaoTimeB = savedInstanceState.getInt("pontuacaoB", 0)
+            tempoRestanteInMillis = savedInstanceState.getLong("tempoRestante", 600000)
+            timerRodando = savedInstanceState.getBoolean("timerRodando", false)
+        }
+
+        setContentView(R.layout.activity_main)
+        setupViews()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Re-infla o layout correto para a nova orientação
+        setContentView(R.layout.activity_main)
+        setupViews()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("pontuacaoA", pontuacaoTimeA)
+        outState.putInt("pontuacaoB", pontuacaoTimeB)
+        outState.putLong("tempoRestante", tempoRestanteInMillis)
+        outState.putBoolean("timerRodando", timerRodando)
+    }
+
+    private fun setupViews() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -41,6 +68,15 @@ class MainActivity : ComponentActivity() {
         pTimeB = findViewById(R.id.placarTimeB)
         textCronometro = findViewById(R.id.cronometro)
 
+        // Restaura valores na UI
+        pTimeA.text = pontuacaoTimeA.toString()
+        pTimeB.text = pontuacaoTimeB.toString()
+        atualizarTextoCronometro()
+
+        // Se o timer estava rodando, retoma-o
+        if (timerRodando) {
+            iniciarTimer()
+        }
 
         val bTresPontosTimeA: Button = findViewById(R.id.tresPontosA)
         val bDoisPontosTimeA: Button = findViewById(R.id.doisPontosA)
@@ -66,8 +102,6 @@ class MainActivity : ComponentActivity() {
                 iniciarTimer()
             }
         }
-
-        atualizarTextoCronometro()
     }
 
     private fun adicionarPontos(pontos: Int, time: String) {
@@ -94,6 +128,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun iniciarTimer() {
+        countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(tempoRestanteInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 tempoRestanteInMillis = millisUntilFinished
@@ -101,13 +136,14 @@ class MainActivity : ComponentActivity() {
             }
 
             override fun onFinish() {
-            timerRodando = false
-            Toast.makeText(this@MainActivity, "Fim de Quarto!", Toast.LENGTH_LONG).show()
+                timerRodando = false
+                Toast.makeText(this@MainActivity, "Fim de Quarto!", Toast.LENGTH_LONG).show()
             }
         }.start()
 
         timerRodando = true
     }
+
     private fun pausarTimer() {
         countDownTimer?.cancel()
         timerRodando = false
@@ -149,5 +185,10 @@ class MainActivity : ComponentActivity() {
         }
 
         builder.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
     }
 }
